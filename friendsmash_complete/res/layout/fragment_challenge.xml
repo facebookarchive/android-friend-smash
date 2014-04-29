@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/frontscreen_background">
+
+    <Switch
+	    android:id="@+id/friendsPlayingSwitch"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:textOn="Playing"
+	    android:textOff="Not playing"
+	    android:onClick="onSwitchClicked"/>
+    
+    <Button android:id="@+id/send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send request" />
+    
+    <ScrollView 
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:fillViewport="false">
+		
+		 <LinearLayout
+			        android:id="@+id/challengeFriendsContainer"
+			        android:layout_width="match_parent"
+			    	android:layout_height="match_parent"
+			    	android:orientation="vertical"
+			    	android:paddingTop="6dp"
+			        android:paddingBottom="10dp" />		
+
+	</ScrollView>
+		
+</LinearLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2012 Facebook
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<resources>
+
+    <string name="app_name">FRIEND SMASH incomplete</string>
+    <string name="app_id">480369938658210</string>
+    <string name="parse_app_id">EMsUqEDE5YtM28UI6KQ9YmOwzNSMNLbUyLldUNLq</string>
+    <string name="parse_client_key">XbxKQWXHynWY9okrZXhVrbS0k79bkejbRbxMAu5q</string>       
+    <string name="title_activity_home">FRIEND SMASH</string>
+    <string name="welcome_message">Welcome, Player</string>
+    <string name="you_scored_message"></string>
+    <string name="smash_player_name">Smash Player !</string>
+    <string name="score">Score: 0</string>
+    <string name="no_score">Let\'s smash some friends!</string>
+    <string name="network_error">Please check your network connection</string>
+    <string name="game_over">Game Over!</string>
+    <string name="error_dialog_title">Error</string>
+    <string name="error_dialog_button_text">OK</string>
+    <string name="error_dialog_default_text">No response from server.</string>
+    <string name="error_authentication_retry">An error occurred that requires your attention. %1$s</string>
+    <string name="error_authentication_reopen">An error occurred, please re-login.</string>
+    <string name="error_permission">Please allow us to post on your behalf.</string>
+    <string name="error_server">The server is busy, please retry later.</string>
+    <string name="error_bad_request">An error occurred, please contact the developer with the following message: %1$s</string>
+    <string name="error_unknown">An unknown error occurred, please contact the developer with the following message: %1$s</string>
+    <string name="error_fetching_profile">Error fetching your user profile - Please try again</string>
+    <string name="error_fetching_friend_bitmap">Error fetching your friend\'s profile picture - Please try again</string>
+    <string name="error_switching_screens">Error switching screens - Please try again</string>
+    <string name="error_no_scores">"No scores to display"</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
+	<string name="with_friends_dialog_title">Play with Friends</string>
+    <string name="with_friends_dialog_message">This game is better with friends! Would you like to play with your friends?</string>	
+	<string name="leaderboard_dialog_title">Social Leaderboard</string>
+    <string name="leaderboard_dialog_message">This game needs access to your friends list to show their scores. Do you want to see your friends\' scores?</string>	
+	<string name="publish_scores_dialog_title">Save Score</string>
+    <string name="publish_scores_dialog_message">Do you want to save your score to Facebook?</string>	
+    
+</resources>
