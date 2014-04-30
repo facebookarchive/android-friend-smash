@@ -27,7 +27,7 @@ All contributors must agree to and sign the [Facebook CLA](https://developers.fa
 
 ## License
 
-Copyright 2012-present Facebook, Inc.
+Copyright 2014-present Facebook, Inc.
 
 You are hereby granted a non-exclusive, worldwide, royalty-free license to use, copy, modify, and distribute this software in source code or binary form for use in connection with the web services and APIs provided by Facebook.
 

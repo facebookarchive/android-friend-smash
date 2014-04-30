@@ -56,6 +56,7 @@ public class FBLoggedOutHomeFragment extends Fragment {
 		
 		// Set an error listener for the login button
 		LoginButton loginButton = (LoginButton) v.findViewById(R.id.loginButton);
+		loginButton.setReadPermissions("user_friends");
 		if (loginButton != null) {
 			loginButton.setOnErrorListener(new OnErrorListener() {
 	
