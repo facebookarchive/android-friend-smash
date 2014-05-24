@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -66,6 +68,10 @@ public class FriendSmashApplication extends Application {
 	
 	// List of the logged in user's friends and key for saving/restoring during the Activity lifecycle
 	private List<GraphUser> friends;
+	
+	// List of friends the user can invite (have not installed the app).
+	private List<JSONObject> invitableFriends;
+
 	private static final String FRIENDS_KEY = "friends";
 		
 	// ID of the last friend smashed (linked to the current score)
@@ -231,6 +237,15 @@ public class FriendSmashApplication extends Application {
 	public static String getFriendsKey() {
 		return FRIENDS_KEY;
 	}
+	
+	public List<JSONObject> getInvitableFriends() {
+		return invitableFriends;
+	}
+
+	public void setInvitableFriends(List<JSONObject> invitableFriends) {
+		this.invitableFriends = invitableFriends;
+	}
+
 		
 	public void saveInventory() {
 		SharedPreferences prefs = getApplicationContext().getSharedPreferences("Inventory", MODE_PRIVATE);
