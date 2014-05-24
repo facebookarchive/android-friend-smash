@@ -41,7 +41,10 @@
    	<style name="ScoreboardPlayerScoreFont" parent="@android:style/TextAppearance.Small">
        	<item name="android:textColor">#FFFFFF</item>
    	</style>
-	<style name="fb_button">
+   	<style name="RequestPlayerNameFont" parent="@android:style/TextAppearance.Medium">
+       	<item name="android:textColor">#FFFFFF</item>
+   	</style>
+   		<style name="fb_button">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
 	</style>
