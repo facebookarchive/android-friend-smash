@@ -188,7 +188,6 @@ public class GameFragment extends Fragment {
 		
 		// Make sure there are non-zero friends.
 		List<GraphUser> friends = ((FriendSmashApplication) getActivity().getApplication()).getFriends();
-		Log.d(TAG, "Got friends " + friends);
 		if (FriendSmashApplication.IS_SOCIAL && friends != null && friends.size() > 0) {
 			// User is logged into FB, so choose a random FB friend to smash
 			isSocialMode = true;
