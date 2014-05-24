@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -49,10 +50,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.FacebookException;
@@ -60,6 +66,7 @@ import com.facebook.FacebookOperationCanceledException;
 import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
+import com.facebook.RequestBatch;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
@@ -86,8 +93,14 @@ public class HomeFragment extends Fragment {
 	
 	// Store the Application (as you can't always get to it when you can't access the Activity - e.g. during rotations)
     private FriendSmashApplication application;
-	
-	// FrameLayout of the gameOverContainer
+    
+	// LinearLayout of the mainButtonsContainer
+    private LinearLayout mainButtonsContainer;
+    
+	// LinearLayout of the gameOverContainer
+    private RelativeLayout challengeContainer;
+
+	// LinearLayout of the gameOverContainer
     private LinearLayout gameOverContainer;
     
  // FrameLayout of the progressContainer
@@ -105,10 +118,14 @@ public class HomeFragment extends Fragment {
 	// TextView for the user's name
     private TextView welcomeTextView;
 	
+    private GridView invitesGridView;
+    private GridView requestsGridView;
+    
 	// Buttons ...
     private ImageView playButton;
     private ImageView scoresButton;
     private ImageView challengeButton;
+    private ImageView challengeRequestToggle;
     
     private TextView numBombs;
     private TextView numCoins;
@@ -133,7 +150,10 @@ public class HomeFragment extends Fragment {
 	private static final String PENDING_POST_KEY = "pendingPost";
 	private boolean pendingPost = false;
 
-
+	private boolean invitesMode = true;
+	private List<String> idsToInvite = new ArrayList<String>();
+	private List<String> idsToRequest = new ArrayList<String>();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -205,6 +225,53 @@ public class HomeFragment extends Fragment {
 				}
 			});
 
+			challengeRequestToggle = (ImageView)v.findViewById(R.id.mfsClicker);
+			challengeRequestToggle.setOnTouchListener(new View.OnTouchListener() {
+				
+	            @Override
+				public boolean onTouch(View v, MotionEvent event) {
+	            	if (invitesMode) {
+	            		invitesMode = false;
+	            		challengeRequestToggle.setImageResource(R.drawable.mfs_clicker_request);
+	        			invitesGridView.setVisibility(View.INVISIBLE);
+	        			requestsGridView.setVisibility(View.VISIBLE);							            		
+	            	} else {
+	            		invitesMode = true;
+	            		challengeRequestToggle.setImageResource(R.drawable.mfs_clicker_invite);	            		
+	        			invitesGridView.setVisibility(View.VISIBLE);
+	        			requestsGridView.setVisibility(View.INVISIBLE);						
+	            	}
+					return false;
+				}
+	        });			
+			
+			invitesGridView = (GridView)v.findViewById(R.id.invitesGridView);
+			requestsGridView = (GridView)v.findViewById(R.id.requestsGridView);
+			
+			requestsGridView.setVisibility(View.INVISIBLE);			
+			
+			ImageView sendButton = (ImageView)v.findViewById(R.id.sendButton);
+			sendButton.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					if (invitesMode) {
+						sendDirectedInvite(idsToInvite);
+					} else {
+						sendDirectedRequest(idsToRequest);						
+					}				
+					
+					// hide the challenge view and show the main menu
+					challengeContainer.setVisibility(View.INVISIBLE);
+					mainButtonsContainer.setVisibility(View.VISIBLE);
+					return false;
+				}
+			});
+
+			mainButtonsContainer = (LinearLayout)v.findViewById(R.id.mainButtonsContainer);
+			challengeContainer = (RelativeLayout)v.findViewById(R.id.challengeContainer);
+
+			// Hide the challengeContainer
+			challengeContainer.setVisibility(View.INVISIBLE);
 		}
 		
 		numBombs = (TextView)v.findViewById(R.id.numBombs);
@@ -245,6 +312,7 @@ public class HomeFragment extends Fragment {
 				return false;
 			}
 		});
+		
 		
 		// Hide the gameOverContainer
 		gameOverContainer.setVisibility(View.INVISIBLE);
@@ -501,14 +569,22 @@ public class HomeFragment extends Fragment {
 	
 	// Called when the Challenge button is touched
 	private void onChallengeButtonTouched() {
-		sendChallenge();		
+		sendCustomChallenge();
 	}	
 
-	// Send a request to a specific player
-	private void sendDirectedRequest() {
+	// Send a request to a specific player(s)
+	private void sendDirectedInvite(List<String> invitableTokens) {
+		Bundle params = new Bundle();
+    	params.putString("message", "Come join me in the friend smash times!");    	
+    	params.putString("to", TextUtils.join(",", invitableTokens));
+    	showDialogWithoutNotificationBar("apprequests", params);
+	}
+	
+	// Send a request to a specific player(s)
+	private void sendDirectedRequest(List<String> fbUIDs) {
 		Bundle params = new Bundle();
     	params.putString("message", "I just scored " + application.getScore() + "! Can you beat it?");    	
-    	params.putString("to", application.getLastFriendSmashedID());
+    	params.putString("to", TextUtils.join(",", fbUIDs));
     	showDialogWithoutNotificationBar("apprequests", params);
 	}
 	
@@ -531,8 +607,8 @@ public class HomeFragment extends Fragment {
 		}
 	}
 	
-	private void onGameOverChallengeButtonTouched() {
-		sendDirectedRequest();
+	private void onGameOverChallengeButtonTouched() {		
+		sendDirectedRequest(Arrays.asList(application.getLastFriendSmashedID())); 
 	}
 	
 	private void onGameOverBragButtonTouched() {
@@ -542,6 +618,11 @@ public class HomeFragment extends Fragment {
 	private void onGameOverCloseButtonTouched() {
 		// check if the user wants to post their score to facebook
 		// which requires the publish_actions permissions
+		
+		if (!FriendSmashApplication.IS_SOCIAL) {
+			gameOverContainer.setVisibility(View.INVISIBLE);			
+			return;
+		}
 		
 		Session session = Session.getActiveSession();	
 		if (session == null || !session.isOpened()) {
@@ -559,10 +640,115 @@ public class HomeFragment extends Fragment {
 			postScore();
 			gameOverContainer.setVisibility(View.INVISIBLE);
 		}		
+	}	
+	
+	private void loadInvitableFriendsForInvites() {
+		
+		// Truncating list to first 8 to simplify our UI.
+		final List<JSONObject> invitableFriends = application.getInvitableFriends().subList(0, 8); 
+        final InviteUserArrayAdapter adapter = new InviteUserArrayAdapter(getActivity(), 
+        		invitableFriends);
+        invitesGridView.setAdapter(adapter);
+
+        invitesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+          @Override
+          public void onItemClick(AdapterView<?> parent, final View view,
+              int position, long id) {
+        	          	  
+        	  JSONObject clickedUser = invitableFriends.get(position);
+        	  String invitableToken = clickedUser.optString("id");
+        	  
+        	  // items act as toggles. so check to see if item exists. if it does
+        	  // then remove. otherwise, add it.
+        	  if (idsToInvite.contains(invitableToken)) {
+        		  idsToInvite.remove(invitableToken);
+        	  } else {
+        		  idsToInvite.add(invitableToken);
+        	  }
+          }
+        });
 	}
-	    
+	
+	private void loadFriendsForRequests() {
+		
+		// assumes friends have been loaded
+		
+		// arbitrarily truncating the list of friends at 8 to simplify this a bit.
+        final RequestUserArrayAdapter adapter = new RequestUserArrayAdapter(getActivity(), 
+        		application.getFriends().subList(0, 8));
+        requestsGridView.setAdapter(adapter);
+
+        requestsGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+          @Override
+          public void onItemClick(AdapterView<?> parent, final View view,
+              int position, long id) {
+        	  
+        	  GraphUser clickedUser = application.getFriends().get(position);
+        	  String uid = clickedUser.getId();
+        	  
+        	  // items act as toggles. so check to see if item exists. if it does
+        	  // then remove. otherwise, add it.
+        	  if (idsToRequest.contains(uid)) {
+        		  idsToRequest.remove(uid);
+        	  } else {
+        		  idsToRequest.add(uid);
+        	  }
+          }
+
+        });
+
+	}
+
+	/*
+	 * Now that user_friends is granted, load /me/invitable_friends to get 
+	 * friends who have not installed the game. Also load /me/friends which
+	 * returns friends that have installed the game (if using Platform v2.0).
+	 *     
+	 */
 	private void loadFriendsFromFacebook(final FriendsLoadedCallback callback) {
 		final Session session = Session.getActiveSession();
+		
+		RequestBatch requestBatch = new RequestBatch();
+		
+		// Get a list of friends who have _not installed_ the game. 
+		Request invitableFriendsRequest = Request.newGraphPathRequest(session, 
+				"/me/invitable_friends", new Request.Callback() {
+
+			@Override
+			public void onCompleted(Response response) {
+
+				FacebookRequestError error = response.getError();
+				if (error != null) {
+					Log.e(FriendSmashApplication.TAG, error.toString());
+					//handleError(error, true);
+				} else if (session == Session.getActiveSession()) {
+					if (response != null) {
+						// Get the result
+						GraphObject graphObject = response.getGraphObject();
+						JSONArray dataArray = (JSONArray)graphObject.getProperty("data");
+
+						List<JSONObject> invitableFriends = new ArrayList<JSONObject>();
+						if (dataArray.length() > 0) {
+							// Ensure the user has at least one friend ...
+
+							for (int i=0; i<dataArray.length(); i++) {
+								invitableFriends.add(dataArray.optJSONObject(i));
+							}
+						}
+
+						application.setInvitableFriends(invitableFriends);							
+					}
+				}
+			}
+
+		});
+		Bundle invitableParams = new Bundle();
+		invitableParams.putString("fields", "id,first_name,picture");
+		invitableFriendsRequest.setParameters(invitableParams);
+		requestBatch.add(invitableFriendsRequest);
+					
 		// Get the user's list of friends. 
 		// This only returns friends who have installed the game.
 		Request friendsRequest = Request.newMyFriendsRequest(session, new Request.GraphUserListCallback() {
@@ -584,9 +770,12 @@ public class HomeFragment extends Fragment {
 		Bundle params = new Bundle();
         params.putString("fields", "id,first_name");
         friendsRequest.setParameters(params);
-		Request.executeBatchAsync(friendsRequest);
-	}
+		requestBatch.add(friendsRequest);
 
+		// Execute the batch of requests asynchronously
+		requestBatch.executeAsync();
+	}
+	
 	/*
 	 * Called when and Activity returns. Checks for the following scenarios:
 	 * 
@@ -723,8 +912,12 @@ public class HomeFragment extends Fragment {
 		// any of their friends have a higher score
 		application.setScoreboardEntriesList(null);
 
-		youSmashedUserImage.setProfileId(application.getLastFriendSmashedID());
-		youSmashedUserImage.setCropped(true);
+		if (FriendSmashApplication.IS_SOCIAL) {
+			youSmashedUserImage.setProfileId(application.getLastFriendSmashedID());
+			youSmashedUserImage.setCropped(true);
+		} else {
+			youSmashedUserImage.setVisibility(View.INVISIBLE);
+		}
 		
 		if (application.getScore() >= 0) {
 			scoredTextView.setText("You smashed " + application.getLastFriendSmashedName() +
@@ -876,6 +1069,28 @@ public class HomeFragment extends Fragment {
 		Request.executeBatchAsync(friendDevicesGraphPathRequest);
 	}
 	
+	private void sendCustomChallenge() {
+		Session session = Session.getActiveSession();			
+		if (session == null || !session.isOpened()) {
+			return;
+		}
+
+		// check to see that the user granted the user_friends permission. 
+		List<String> permissions = session.getPermissions();			 
+		if (!permissions.contains("user_friends")) {
+			// if the user hasn't granted user_friends, we'll just fallback 
+			// to showing the request dialog without customization.
+			sendChallenge();
+		} else {
+			loadInvitableFriendsForInvites();
+			loadFriendsForRequests();		
+			
+			// Hide the buttons container and show the challenge container
+			mainButtonsContainer.setVisibility(View.INVISIBLE);
+			challengeContainer.setVisibility(View.VISIBLE);					
+		}		
+	}
+	
 	// Pop up a feed dialog for the user to brag to their friends about their score and to offer
 	// them the opportunity to smash them back in Friend Smash
 	private void sendBrag() {
@@ -1018,4 +1233,7 @@ public class HomeFragment extends Fragment {
 	public void setPendingPost(boolean pendingPost) {
 		this.pendingPost = pendingPost;
 	}
+	
+	
+
 }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -341,7 +342,46 @@ public class HomeActivity extends FragmentActivity {
 			// Create a RequestBatch and add a callback once the batch of requests completes
 			RequestBatch requestBatch = new RequestBatch();
 
-			// check to see that the user granted the user_friends permission before loading friends
+			// Get a list of friends who have _not installed_ the game. 
+			Request invitableFriendsRequest = Request.newGraphPathRequest(session, 
+					"/me/invitable_friends", new Request.Callback() {
+				
+				@Override
+				public void onCompleted(Response response) {
+
+					FacebookRequestError error = response.getError();
+					if (error != null) {
+						Log.e(FriendSmashApplication.TAG, error.toString());
+						handleError(error, true);
+					} else if (session == Session.getActiveSession()) {
+						if (response != null) {
+							// Get the result
+							GraphObject graphObject = response.getGraphObject();
+							JSONArray dataArray = (JSONArray)graphObject.getProperty("data");
+
+							List<JSONObject> invitableFriends = new ArrayList<JSONObject>();
+							if (dataArray.length() > 0) {
+								// Ensure the user has at least one friend ...
+
+								for (int i=0; i<dataArray.length(); i++) {
+									invitableFriends.add(dataArray.optJSONObject(i));
+								}
+							}
+														
+							((FriendSmashApplication)getApplication()).setInvitableFriends(invitableFriends);							
+						}
+					}
+				}
+				
+			});
+			Bundle invitableParams = new Bundle();
+			invitableParams.putString("fields", "id,first_name,picture");
+			invitableFriendsRequest.setParameters(invitableParams);
+			requestBatch.add(invitableFriendsRequest);
+			
+			
+			// Check to see that the user granted the user_friends permission before loading friends.
+			// This only loads friends who've installed the game.
 			if (session.getPermissions().contains("user_friends")) {
 				// Get the user's list of friends
 				Request friendsRequest = Request.newMyFriendsRequest(session, 
