@@ -644,8 +644,15 @@ public class HomeFragment extends Fragment {
 	
 	private void loadInvitableFriendsForInvites() {
 		
-		// Truncating list to first 8 to simplify our UI.
-		final List<JSONObject> invitableFriends = application.getInvitableFriends().subList(0, 8); 
+		final List<JSONObject> invitableFriends;
+		if (application.getInvitableFriends().size() > 8) {
+			// Truncating list to first 8 to simplify our UI.
+			invitableFriends = application.getInvitableFriends().subList(0, 8);
+		} else {
+			invitableFriends = application.getInvitableFriends();
+
+		}
+						
         final InviteUserArrayAdapter adapter = new InviteUserArrayAdapter(getActivity(), 
         		invitableFriends);
         invitesGridView.setAdapter(adapter);
@@ -668,15 +675,19 @@ public class HomeFragment extends Fragment {
         	  }
           }
         });
-	}
+	}	
 	
 	private void loadFriendsForRequests() {
 		
 		// assumes friends have been loaded
+		List<GraphUser> friends = application.getFriends();
 		
 		// arbitrarily truncating the list of friends at 8 to simplify this a bit.
+		if (friends.size() > 8 )
+			friends = friends.subList(0, 8);
+			
         final RequestUserArrayAdapter adapter = new RequestUserArrayAdapter(getActivity(), 
-        		application.getFriends().subList(0, 8));
+        		friends);
         requestsGridView.setAdapter(adapter);
 
         requestsGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
