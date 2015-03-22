@@ -1,11 +1,5 @@
 package com.facebook.android.friendsmash;
 
-import java.io.InputStream;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.util.List;
 
 public class InviteUserArrayAdapter extends ArrayAdapter<JSONObject> {
 	private final Context context;

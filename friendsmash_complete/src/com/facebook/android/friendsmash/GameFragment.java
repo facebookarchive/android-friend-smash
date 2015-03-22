@@ -16,19 +16,6 @@
 
 package com.facebook.android.friendsmash;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.annotation.TargetApi;
@@ -64,6 +51,18 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 /**
  *  Fragment shown once a user starts playing a game
@@ -146,7 +145,7 @@ public class GameFragment extends Fragment {
 	
 	
 	// Score for the user
-	private int score = 0;
+	private int score = -1;
 	
 	// Lives the user has remaining
 	private int lives = 3;

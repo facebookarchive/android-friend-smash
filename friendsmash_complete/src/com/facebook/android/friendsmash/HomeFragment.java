@@ -16,31 +16,12 @@
 
 package com.facebook.android.friendsmash;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -51,13 +32,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -69,14 +47,19 @@ import com.facebook.Request;
 import com.facebook.RequestBatch;
 import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.Session.StatusCallback;
 import com.facebook.SessionDefaultAudience;
-import com.facebook.SessionState;
 import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.ProfilePictureView;
 import com.facebook.widget.WebDialog;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *  Fragment to be shown once the user is logged in on the social version of the game or
@@ -196,7 +179,7 @@ public class HomeFragment extends Fragment {
 	            	onScoresButtonTouched();
 					return false;
 				}
-	        });
+	              });
 			
 			challengeButton = (ImageView)v.findViewById(R.id.challengeButton);
 			challengeButton.setOnTouchListener(new View.OnTouchListener() {
@@ -205,7 +188,7 @@ public class HomeFragment extends Fragment {
 	            	onChallengeButtonTouched();
 					return false;
 				}
-	        });			
+	              });
 			
 			ImageView gameOverChallengeButton = (ImageView)v.findViewById(R.id.gameOverChallengeButton);
 			gameOverChallengeButton.setOnTouchListener(new View.OnTouchListener() {
@@ -243,7 +226,7 @@ public class HomeFragment extends Fragment {
 	            	}
 					return false;
 				}
-	        });			
+	              });
 			
 			invitesGridView = (GridView)v.findViewById(R.id.invitesGridView);
 			requestsGridView = (GridView)v.findViewById(R.id.requestsGridView);
@@ -298,7 +281,7 @@ public class HomeFragment extends Fragment {
             	onPlayButtonTouched();
 				return false;
 			}
-        });
+             });
 
 		gameOverContainer = (LinearLayout)v.findViewById(R.id.gameOverContainer);
 		youSmashedUserImage = (ProfilePictureView)v.findViewById(R.id.youSmashedUserImage);
@@ -841,7 +824,7 @@ public class HomeFragment extends Fragment {
 		    			Intent i = new Intent(getActivity(), ScoreboardActivity.class);
 		    			startActivityForResult(i, 0);
 					}
-    				
+
     			});    			    			
     		} else {
     			// do nothing
@@ -945,6 +928,9 @@ public class HomeFragment extends Fragment {
 		
 		// Set the gameOverMessageDisplaying boolean to true
 		gameOverMessageDisplaying = true;
+
+        // log GAME_PLAYED event
+        ((HomeActivity)getActivity()).getEventsLogger().logGamePlayedEvent(application.getScore());
 				
 	}
 	
