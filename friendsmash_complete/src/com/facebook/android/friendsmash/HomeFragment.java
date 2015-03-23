@@ -298,7 +298,7 @@ public class HomeFragment extends Fragment {
 		
 		
 		// Hide the gameOverContainer
-		gameOverContainer.setVisibility(View.INVISIBLE);
+		hideGameOverContainer();
 		
 		// Hide the progressContainer
 		progressContainer.setVisibility(View.INVISIBLE);
@@ -402,11 +402,12 @@ public class HomeFragment extends Fragment {
 			} else {
 			    // Launched with no deep-link Uri, so just continue as normal and load the home screen
 			}
+
 		}
-		
+
 		if (!gameLaunchedFromDeepLinking && gameOverMessageDisplaying) {
 			// The game hasn't just been launched from deep linking and the game over message should still be displaying, so ...
-			
+
 			// Complete the game over logic
 			completeGameOver();
 		}
@@ -507,7 +508,7 @@ public class HomeFragment extends Fragment {
 			public void onClick(DialogInterface dialog, int id) {
 				// User hit cancel.
 				// Hide the gameOverContainer
-				gameOverContainer.setVisibility(View.INVISIBLE);
+				hideGameOverContainer();
 			}
 		})
 		.setTitle(R.string.publish_scores_dialog_title)
@@ -601,9 +602,9 @@ public class HomeFragment extends Fragment {
 	private void onGameOverCloseButtonTouched() {
 		// check if the user wants to post their score to facebook
 		// which requires the publish_actions permissions
-		
+
 		if (!FriendSmashApplication.IS_SOCIAL) {
-			gameOverContainer.setVisibility(View.INVISIBLE);			
+			hideGameOverContainer();
 			return;
 		}
 		
@@ -621,9 +622,19 @@ public class HomeFragment extends Fragment {
 		} else {
 			// Save score and hide the gameOverContainer
 			postScore();
-			gameOverContainer.setVisibility(View.INVISIBLE);
+			hideGameOverContainer();
 		}		
-	}	
+	}
+
+    private void showGameOverContainer() {
+        gameOverContainer.setVisibility(View.VISIBLE);
+        gameOverMessageDisplaying = true;
+    }
+
+    private void hideGameOverContainer() {
+        gameOverContainer.setVisibility(View.INVISIBLE);
+        gameOverMessageDisplaying = false;
+    }
 	
 	private void loadInvitableFriendsForInvites() {
 		
@@ -842,8 +853,7 @@ public class HomeFragment extends Fragment {
     		} 	
 
     		// Hide the gameOverContainer
-			gameOverContainer.setVisibility(View.INVISIBLE);
-			gameOverMessageDisplaying = false;
+			hideGameOverContainer();
 
         } else if (resultCode == Activity.RESULT_OK && data != null) {
         	// Finished a game
@@ -870,6 +880,10 @@ public class HomeFragment extends Fragment {
 			
 			// Update the UI
 			completeGameOver();
+
+            // log GAME_PLAYED event
+            ((HomeActivity)getActivity()).getEventsLogger().logGamePlayedEvent(application.getScore());
+
 		} else if (resultCode == Activity.RESULT_FIRST_USER && data != null) {
 			// Came from the ScoreboardFragment, so start a game with the specific user who has been clicked
 			Intent i = new Intent(getActivity(), GameActivity.class);
@@ -924,13 +938,7 @@ public class HomeFragment extends Fragment {
 		}
 				
 		// Show the gameOverContainer
-		gameOverContainer.setVisibility(View.VISIBLE);
-		
-		// Set the gameOverMessageDisplaying boolean to true
-		gameOverMessageDisplaying = true;
-
-        // log GAME_PLAYED event
-        ((HomeActivity)getActivity()).getEventsLogger().logGamePlayedEvent(application.getScore());
+		showGameOverContainer();
 				
 	}
 	

@@ -145,7 +145,7 @@ public class GameFragment extends Fragment {
 	
 	
 	// Score for the user
-	private int score = -1;
+	private int score = 0;
 	
 	// Lives the user has remaining
 	private int lives = 3;
