@@ -16,14 +16,6 @@
 
 package com.facebook.android.friendsmash;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -54,6 +46,14 @@ import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  *  Entry point for the app that represents the home screen with the Play button etc. and
  *  also the login screen for the social version of the app - these screens will switch
@@ -69,6 +69,9 @@ public class HomeActivity extends FragmentActivity {
 
 	// Declare the UiLifecycleHelper for Facebook session management
     private UiLifecycleHelper fbUiLifecycleHelper;
+
+    // App events logger
+    private FriendSmashEventsLogger eventsLogger;
 
 	// Fragment attributes
     private static final int FB_LOGGED_OUT_HOME = 0;
@@ -89,7 +92,9 @@ public class HomeActivity extends FragmentActivity {
  	public UiLifecycleHelper getFbUiLifecycleHelper() {
 		return fbUiLifecycleHelper;
 	}
- 	
+
+    // Getter for the app eventsLogger
+    public FriendSmashEventsLogger getEventsLogger() { return eventsLogger; }
  	
  	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,9 +126,10 @@ public class HomeActivity extends FragmentActivity {
     				}
     			}
 			}
-    	});
+            	});
         fbUiLifecycleHelper.onCreate(savedInstanceState);
-        
+        eventsLogger = new FriendSmashEventsLogger(fbUiLifecycleHelper.getAppEventsLogger());
+
 		setContentView(R.layout.home);
 		
 		FragmentManager fm = getSupportFragmentManager();
@@ -207,10 +213,8 @@ public class HomeActivity extends FragmentActivity {
         
         // Hide the notification bar
  		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
- 		
- 		// Measure mobile app install ads
- 		// Ref: https://developers.facebook.com/docs/tutorials/mobile-app-ads/
- 		AppEventsLogger.activateApp(this, ((FriendSmashApplication)getApplication()).getString(R.string.app_id));
+
+        AppEventsLogger.activateApp(this);
     }
 
     @Override
@@ -220,6 +224,8 @@ public class HomeActivity extends FragmentActivity {
         
         // Call onPause on fbUiLifecycleHelper
   		fbUiLifecycleHelper.onPause();
+
+        AppEventsLogger.deactivateApp(this);
     }
 	
 	@Override

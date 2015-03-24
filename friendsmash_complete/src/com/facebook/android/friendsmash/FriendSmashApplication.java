@@ -16,21 +16,20 @@
 
 package com.facebook.android.friendsmash;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.json.JSONObject;
-
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.facebook.FacebookRequestError;
 import com.facebook.model.GraphUser;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  *  Use a custom Application class to pass state data between Activities.
@@ -52,7 +51,7 @@ public class FriendSmashApplication extends Application {
 	public static int NEW_USER_BOMBS = 5;
 	public static int NEW_USER_COINS = 100;
 	public static int NUM_BOMBS_ALLOWED_IN_GAME = 3;
-	private int score = -1;
+	private int score = 0;
 	private int bombs = 0;
 	private int coins = 0;
 	private int coinsCollected = 0;

@@ -16,8 +16,6 @@
 
 package com.facebook.android.friendsmash;
 
-import java.util.Random;
-
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
@@ -29,6 +27,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+
+import java.util.Random;
 
 /**
  *  ImageViews of the users that the playing user has to smash.  These can contain images of one

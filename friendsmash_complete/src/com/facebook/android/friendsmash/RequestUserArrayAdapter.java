@@ -1,10 +1,5 @@
 package com.facebook.android.friendsmash;
 
-import java.util.List;
-
-import com.facebook.model.GraphUser;
-import com.facebook.widget.ProfilePictureView;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -13,6 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.model.GraphUser;
+import com.facebook.widget.ProfilePictureView;
+
+import java.util.List;
 
 public class RequestUserArrayAdapter extends ArrayAdapter<GraphUser> {
 	private final Context context;
