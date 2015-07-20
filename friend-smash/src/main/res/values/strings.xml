@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2014-present, Facebook, Inc. All rights reserved.
+
+ You are hereby granted a non-exclusive, worldwide, royalty-free license to use,
+ copy, modify, and distribute this software in source code or binary form for use
+ in connection with the web services and APIs provided by Facebook.
+
+ As with any software that integrates with the Facebook platform, your use of
+ this software is subject to the Facebook Developer Principles and Policies
+ [http://developers.facebook.com/policy/]. This copyright notice shall be
+ included in all copies or substantial portions of the software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+
+<resources>
+
+    <string name="app_name">Friend Smash!</string>
+    <string name="facebook_app_id">480369938658210</string>
+    <string name="parse_app_id">EMsUqEDE5YtM28UI6KQ9YmOwzNSMNLbUyLldUNLq</string>
+    <string name="parse_client_key">XbxKQWXHynWY9okrZXhVrbS0k79bkejbRbxMAu5q</string>       
+    <string name="title_activity_home">Friend Smash!</string>
+    <string name="welcome_message">Welcome, Player</string>
+    <string name="you_scored_message"></string>
+    <string name="smash_player_name">Smash Player !</string>
+    <string name="score">Score: 0</string>
+    <string name="no_score">Let\'s smash some friends!</string>
+    <string name="game_over">Game Over!</string>
+    <string name="error_fetching_profile">Error fetching your user profile - Please try again</string>
+    <string name="error_fetching_friend_bitmap">Error fetching your friend\'s profile picture - Please try again</string>
+    <string name="error_no_scores">"No scores to display"</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
+	<string name="with_friends_dialog_title">Play with Friends</string>
+    <string name="with_friends_dialog_message">This game is better with friends! Would you like to play with your friends?</string>	
+	<string name="leaderboard_dialog_title">Social Leaderboard</string>
+    <string name="leaderboard_dialog_message">This game needs access to your friends list to show their scores. Do you want to see your friends\' scores?</string>	
+	<string name="publish_scores_dialog_title">Save Score</string>
+    <string name="publish_scores_dialog_message">Do you want to save your score to Facebook?</string>
+    <string name="game_request_dialog_title">Friend Smash!</string>
+    <string name="invite_dialog_message">"Come join me in Friend Smash!"</string>
+    <string name="challenge_dialog_message">I just smashed you %1$s times! Can you beat it?</string>
+    <string name="request_dialog_message">My best score is %1$s! Can you beat it?</string>
+    <string name="brag_share_name">Checkout my Friend Smash greatness!</string>
+    <string name="brag_share_description">I just scored %1$s! Can you beat my score?</string>
+    <string name="brag_share_picture">http://www.friendsmash.com/images/logo_large.jpg</string>
+</resources>
