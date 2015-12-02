@@ -9,3 +9,4 @@ friend-smash/build/
 build/
 .idea/
 .gradle/
+local.properties
