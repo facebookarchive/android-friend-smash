@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2014-present, Facebook, Inc. All rights reserved.
+
+ You are hereby granted a non-exclusive, worldwide, royalty-free license to use,
+ copy, modify, and distribute this software in source code or binary form for use
+ in connection with the web services and APIs provided by Facebook.
+
+ As with any software that integrates with the Facebook platform, your use of
+ this software is subject to the Facebook Developer Principles and Policies
+ [http://developers.facebook.com/policy/]. This copyright notice shall be
+ included in all copies or substantial portions of the software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gameFrame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/frontscreen_background" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:layout_gravity="top|left"
+    	android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+    >
+    	
+        <TextView
+	        android:id="@+id/smashPlayerNameTextView"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	        style="@style/PlayerNameFont"
+	        android:text="@string/smash_player_name"
+	    />
+        
+        <LinearLayout
+            android:id="@+id/livesContainer"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	        android:layout_marginTop="5dp"
+	    />
+        
+        <LinearLayout
+            android:id="@+id/bombsContainer"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	        android:layout_marginTop="5dp"
+	    />
+        
+    </LinearLayout>
+    
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_gravity="top|right"
+    	android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        style="@style/ScoreFont"
+        android:text="@string/score"
+    />
+    
+   	<ImageView
+        android:id="@+id/bombButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:src="@drawable/bomb_large"
+       />
+    
+    <FrameLayout android:id="@+id/progressContainer"
+	    android:background="@drawable/frontscreen_background"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:clickable="true"
+	    >
+	    <ProgressBar
+	      style="@android:style/Widget.ProgressBar.Large"
+	      android:layout_width="wrap_content"
+	      android:layout_height="wrap_content"
+	      android:layout_gravity="center"
+	      />
+  	</FrameLayout>
+    
+</FrameLayout>
